@@ -18,3 +18,5 @@ fileprivate func getNotificationSettings() {
         }
     }
 }
+
+
