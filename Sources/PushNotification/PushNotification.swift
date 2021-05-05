@@ -7,6 +7,7 @@ public class PushNotification {
     private var authenticationMethod: AuthenticationMethod
     private var url: URL
     private static var shared: PushNotification?
+    private var deviceToken: String?
     
     public enum AuthenticationMethod {
         case user(id: UUID)
@@ -49,6 +50,7 @@ public class PushNotification {
         
         let tokenParts = token.map { data in String(format: "%02.2hhx", data) }
         let deviceToken = tokenParts.joined()
+        shared!.deviceToken = deviceToken
         
         switch shared!.authenticationMethod {
         case .jwt(let token):
@@ -63,5 +65,27 @@ public class PushNotification {
             RegistrationDeviceNone(device: deviceToken).request(shared!.url)
             break
         }
+    }
+    
+    public static func removeDevice() {
+        
+        guard shared != nil, shared!.deviceToken != nil else {
+            return
+            
+        }
+        
+        switch shared!.authenticationMethod {
+        case .jwt(_):
+            break
+            
+        case .user(let id):
+            RemoveDeviceUser(device: shared!.deviceToken!, id: id).request(shared!.url)
+            break
+        
+        case .none:
+            break
+        }
+        
+        UIApplication.shared.unregisterForRemoteNotifications()
     }
 }
