@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct RegistrationDeviceNone: Codable {
+struct RegistrationDeviceNone: Encodable {
     var device: DeviceInfo
     
     public init(device: String) {
@@ -34,9 +34,19 @@ struct RegistrationDeviceNone: Codable {
         
         task.resume()
     }
+    
+    enum CodingKeys: CodingKey {
+        case deviceID, type
+    }
+    
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(device.deviceID, forKey: .deviceID)
+        try container.encode(device.type, forKey: .type)
+    }
 }
 
-struct RegistrationDeviceJWT: Codable {
+struct RegistrationDeviceJWT: Encodable {
     var device: DeviceInfo
     var token: String
     
@@ -67,16 +77,17 @@ struct RegistrationDeviceJWT: Codable {
     }
     
     enum CodingKeys: CodingKey {
-        case device, token
+        case deviceID, type
     }
     
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(device, forKey: .device)
+        try container.encode(device.deviceID, forKey: .deviceID)
+        try container.encode(device.type, forKey: .type)
     }
 }
 
-struct RegistrationDeviceUser: Codable {
+struct RegistrationDeviceUser: Encodable {
     var device: DeviceInfo
     var id: UUID
     

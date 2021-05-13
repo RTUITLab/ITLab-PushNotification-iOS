@@ -75,8 +75,8 @@ public class PushNotification {
         }
         
         switch shared!.authenticationMethod {
-        case .jwt(_):
-            break
+        case .jwt(let token):
+            RemoveDeviceJWT(device: shared!.deviceToken!, token: token).request(shared!.url)
             
         case .user(let id):
             RemoveDeviceUser(device: shared!.deviceToken!, id: id).request(shared!.url)
