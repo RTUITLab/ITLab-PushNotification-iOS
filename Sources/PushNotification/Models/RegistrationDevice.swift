@@ -28,7 +28,10 @@ struct RegistrationDeviceNone: Encodable {
             if let httpResponse = response as? HTTPURLResponse {
                 if httpResponse.statusCode != 200 {
                     print("Not registration device")
+                    return
                 }
+                
+                print("Device registered")
             }
         }
         
@@ -69,7 +72,10 @@ struct RegistrationDeviceJWT: Encodable {
             if let httpResponse = response as? HTTPURLResponse {
                 if httpResponse.statusCode != 200 {
                     print("Not registration device")
+                    return
                 }
+                
+                print("Device registered")
             }
         }
         
@@ -109,7 +115,10 @@ struct RegistrationDeviceUser: Encodable {
             if let httpResponse = response as? HTTPURLResponse {
                 if httpResponse.statusCode != 200 {
                     print("Not registration device")
+                    return
                 }
+                
+                print("Device registered")
             }
         }
         
